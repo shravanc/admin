@@ -1,6 +1,7 @@
 class RolesController < ApplicationController
+
 def index
-  render json: Role.all.as_json(include: [:privileges])
+  render json: {data: Role.all.as_json(include: [:privileges])}, status: :ok
 end
 
 def create
