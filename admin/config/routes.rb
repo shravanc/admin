@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
 #get :authorize, to: "sessions#authorize"  
-resources :admin
+resources :tenants, only: [:create, :destroy]
+resources :users
 
 resources :sessions do
   get :authorize
