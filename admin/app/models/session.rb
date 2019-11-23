@@ -3,14 +3,16 @@ class Session < ApplicationRecord
 
   def create params
     user = params[:user]
-=begin
+
     status, data = user.validate_credentials( params \
                                   .require(:session) \
                                   .permit( [:username, :password])
                                             )
-=end
+
+=begin
     status, data = user.validate_credentials( params \
                                   .permit( [:username, :password]) )
+=end
     unless status
       return [false, data]
     end

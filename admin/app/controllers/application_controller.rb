@@ -29,9 +29,10 @@ def validate_session
 end
 
 def validate_username
-  #username = params[:action] == 'forgot_password' ? params[:user][:username] : params[:session][:username]
-  username = params[:action] == 'forgot_password' ? params[:user][:username] : params[:username]
-  logger.warn username
+  username = params[:action] == 'forgot_password' ? params[:user][:username] : params[:session][:username]
+  #username = params[:action] == 'forgot_password' ? params[:user][:username] : params[:username]
+  Rails.logger.warn username
+  Rails.logger.warn User.last.as_json
   user = User.find_by_username(username)
   if user.nil?
     render json: {message: 'Invalid username'}, status: :unauthorized
