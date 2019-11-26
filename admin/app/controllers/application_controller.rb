@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::API
 
 def validate_privilege
-  #return [false, {}] unless [:post, :put, :patch].include?request.method
+  subject = UnauthorisedAccesss.new
+  email_observer = EmailObserver.new
+  subject.attach(email_observer)
+  recorder_observer = RecorderObserver.new
+  subject.attach(recorder_observer)
+
   privilege = params[:authorize_action] # + '_' + params[:controller]
   privileges = params[:session].user.role.privileges.map(&:title)
   Rails.logger.warn privileges
@@ -9,6 +14,7 @@ def validate_privilege
   if privileges.include? privilege
     render json: {message: "Valid User"}, status: :ok
   else
+    subject.alaram_operation
     render json: {message: "Invalid User"}, status: :unprocessable_entity
   end
 
