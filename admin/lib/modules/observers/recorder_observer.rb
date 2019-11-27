@@ -7,7 +7,8 @@ end
 private
 
 def construct_body
-  {"action"=> {"status"=>"401", "message"=> "unathorised access", "action" => state}}
+  #{"action"=> {"status"=>"401", "message"=> "unathorised access", "action" => self.state}}
+  {"action"=> {"status"=>"401", "message"=> "unathorised access", "action" => "hello"}}
 end
 
 def construct_url

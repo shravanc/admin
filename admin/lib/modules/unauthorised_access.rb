@@ -8,7 +8,7 @@ def initialize req=nil, par=nil
 end
 
 def attach observer
-  @observers >> observer
+  @observers << observer
 end
 
 def detach observer
@@ -16,7 +16,7 @@ def detach observer
 end
 
 def notify
-  @observers.each { |observer| observer.update(self) }
+  @observers.each { |observer| observer.update }
 end
 
 def alaram_operation action

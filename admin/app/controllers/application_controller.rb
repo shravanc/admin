@@ -1,3 +1,4 @@
+require 'unauthorised_access'
 class ApplicationController < ActionController::API
 
 def validate_privilege
@@ -14,7 +15,7 @@ def validate_privilege
   if privileges.include? privilege
     render json: {message: "Valid User"}, status: :ok
   else
-    subject.alaram_operation
+    subject.alaram_operation privilege
     render json: {message: "Invalid User"}, status: :unprocessable_entity
   end
 
