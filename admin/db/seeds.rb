@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Apartment:Switch!('amazon')
+Apartment::Tenant.switch!('amazon')
 user = User.where(username: "admin", firstname: "admin", password: "password").first_or_create
 admin = Role.where(title: "admin").first_or_create
 
@@ -34,7 +34,7 @@ user.role = admin
 
 
 #Netflix ontent
-Apartment:Switch!('netflix')
+Apartment::Tenant.switch!('netflix')
 user = User.where(username: "admin", firstname: "admin", password: "password").first_or_create
 admin = Role.where(title: "admin").first_or_create
 

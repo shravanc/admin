@@ -60,6 +60,20 @@ class User < ApplicationRecord
 
   private
 
+  def mandatory_before_save_operations
+    handler = fetch_handler
+    ["encrypt", "notify"].each do |request|
+      handler.handle(request)
+    end
+  end
+
+  def fetch_handler
+    encrypt = EncryptPassword.new
+    notify = SendNotification.new
+    encrypt.next_handler(notify)
+    encrypt
+  end
+  
   def user_by_token token
     User.find_by_confirmation_token(token)
   end
