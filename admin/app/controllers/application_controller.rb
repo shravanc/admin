@@ -3,15 +3,16 @@ class ApplicationController < ActionController::API
 
 def validate_privilege
   subject = UnauthorisedAccesss.new
+
   email_observer = EmailObserver.new
   subject.attach(email_observer)
+
   recorder_observer = RecorderObserver.new
   subject.attach(recorder_observer)
 
   privilege = params[:authorize_action] # + '_' + params[:controller]
   privileges = params[:session].user.role.privileges.map(&:title)
-  Rails.logger.warn privileges
-  Rails.logger.warn privilege
+
   if privileges.include? privilege
     render json: {message: "Valid User"}, status: :ok
   else

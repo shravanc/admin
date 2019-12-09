@@ -7,7 +7,7 @@ before_action :validate_privilege, only: [:authorize]
 
 def create
   session = Session.new
-  status, data = session.create(params)
+  status, data = session.login(params)
   if status
     render json: data, status: :created
   else

@@ -10,7 +10,7 @@ end
 
 def create
   user = User.new
-  status, data = user.create(params)
+  status, data = user.register(params)
   if status
     render json: data, status: :created
   else

@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: true
 
-  def create params
+  def register params
     user = User.create(user_parameters(params))
     message = { message: 'user created succesfully'}
     return [ true, message ]
@@ -61,19 +61,16 @@ class User < ApplicationRecord
   private
 
   def mandatory_before_save_operations
-    handler = fetch_handler
+    encrypt = EncryptPassword.new
+    notify = SendNotification.new
+
+    encrypt.next_handler(notify)
+
     ["encrypt", "notify"].each do |request|
-      handler.handle(request)
+      encrypt.handle(request)
     end
   end
 
-  def fetch_handler
-    encrypt = EncryptPassword.new
-    notify = SendNotification.new
-    encrypt.next_handler(notify)
-    encrypt
-  end
-  
   def user_by_token token
     User.find_by_confirmation_token(token)
   end
