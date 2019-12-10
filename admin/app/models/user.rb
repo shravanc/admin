@@ -60,12 +60,16 @@ class User < ApplicationRecord
 
   private
 
+  # there are set of task that are to be done after a user is created. We are handling it with Chain of Responsibility Design Pattern
   def mandatory_before_save_operations
+    # Defining handlers for each responsibility. One to Encrypt user password and another to send notification of registration. More can come in future.
     encrypt = EncryptPassword.new
     notify = SendNotification.new
 
-    encrypt.next_handler(notify)
+    #register each responsibility beofre, each request is served.
+    encrypt.next_handler(notify) # .next_handler(something_else_1).next_handler(something_else_2)
 
+    #After regitering the responsibility like above. Each requests/taskare performed one after the another.
     ["encrypt", "notify"].each do |request|
       encrypt.handle(request)
     end
