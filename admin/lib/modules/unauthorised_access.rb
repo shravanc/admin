@@ -15,10 +15,12 @@ def detach observer
   @observers.delete(observer)
 end
 
+#this will iterate over the list of observers and call update.
 def notify
   @observers.each { |observer| observer.update }
 end
 
+#This functions triggers/notify all the observers that were attached.
 def alaram_operation action
   @state = action
   notify
