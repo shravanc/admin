@@ -1,15 +1,23 @@
 require 'unauthorised_access'
 class ApplicationController < ActionController::API
 
+  
+#In vod platform we want to register all the unauthorised access in the system done from the user. So We have defined two such 
+#observers to watch on such activities. It waits for it to be notified on such actions performed. Those two observers are 
+#1. email notificiation for the admin and 2. tracking the activity for further analysis of such actions.
 def validate_privilege
+  #defining the subject for the observer. Then attach all the observer to this to be notified.
   subject = UnauthorisedAccesss.new
 
+  #Email observer
   email_observer = EmailObserver.new
   subject.attach(email_observer)
 
+  #Activity  Observer
   recorder_observer = RecorderObserver.new
   subject.attach(recorder_observer)
 
+  #Currenct Action performed
   privilege = params[:authorize_action] # + '_' + params[:controller]
   privileges = params[:session].user.role.privileges.map(&:title)
 
